@@ -30,6 +30,8 @@ def bin_add(a, b):
     result = make_bin_lengthy(bin_result[2:], max(len(a), len(b)))
     return result
 
+def bin_to_decimal (binary_int) :
+    return int(binary_int , 2)
 
 def main():
     memory = Memory()
@@ -48,8 +50,9 @@ def main():
         print("____STARTING____")
         AR.write(PC.read())
         print_status(AC, AR, DR, IR, PC, TR)
-        print(bin_add('1', PC.read()))
+        PC.write(bin_add('1', PC.read()))
+        IR.write(memory.memory[bin_to_decimal(AR.read())])
+        print_status(AC, AR, DR, IR, PC, TR)
 
-
-# main()
-print(bin_add('0000011', '1'))
+main()
+# print(bin_add('0000011', '1'))

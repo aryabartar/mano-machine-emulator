@@ -75,7 +75,7 @@ class ProgramCounter:
         self.address = value
 
     def __str__(self):
-        return "IR: " + self.address
+        return "PC: " + self.address
 
 
 class Accumulator:

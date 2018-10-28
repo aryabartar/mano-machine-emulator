@@ -29,6 +29,8 @@ def make_bin_lengthy(a, length):
 def bin_add(a, b):
     bin_result = bin(int(a, 2) + int(b, 2))
     result = make_bin_lengthy(bin_result[2:], max(len(a), len(b)))
+    if len(result) > max(len(a), len(b)):
+        result = result[1:]
     return result
 
 
@@ -46,6 +48,14 @@ def binary_and(a, b):
         else:
             temp_bin += '0'
     return temp_bin
+
+
+def check_if_DR_is_zero(DR):
+    dr_value = DR.read()
+    for char in dr_value:
+        if char == '1':
+            return False
+    return True
 
 
 def main():
@@ -83,15 +93,13 @@ def main():
         if I == 1:
             AR.write(memory.memory[bin_to_decimal(AR.read())])
 
-        # -D0
         if D == 0:
             # T4
             DR.write(memory.memory[bin_to_decimal(AR.read())])
 
             # T5
             AC.write(binary_and(AC.read(), DR.read()))
-            # RESER SC
-        # -D1
+
         elif D == 1:
             # T4
             DR.write(memory.memory[bin_to_decimal(AR.read())])
@@ -99,6 +107,40 @@ def main():
             # T5
             AC.write(bin_add(AC.read(), DR.read()))
 
+        elif D == 2:
+            # T4
+            DR.write(memory.memory[bin_to_decimal(AR.read())])
+
+            # T5
+            AC.write(DR.read())
+
+        elif D == 3:
+            # T4
+            memory.memory[bin_to_decimal(AR.read())] = AC.read()
+
+        elif D == 4:
+            # T4
+            PC.write(AR.read())
+
+        elif D == 5:
+            # T4
+            memory.memory[bin_to_decimal(AR.read())] = PC.read()
+            AR.write(bin_add(AR.read(), '1'))
+
+            # T5
+            PC.write(AR.read())
+
+        elif D == 6:
+            # T4
+            DR.write(memory.memory[bin_to_decimal(AR.read())])
+
+            # T5
+            DR.write(bin_add(DR.read(), '1'))
+
+            # T6
+            memory.memory[bin_to_decimal(AR.read())] = DR.read()
+            if check_if_DR_is_zero() :
+                PC.write(bin_add(PC.read() , '1'))
 
 main()
 # print(bin_add('0000011', '1'))

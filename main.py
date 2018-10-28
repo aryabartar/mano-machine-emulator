@@ -1,5 +1,13 @@
-import time
+from machine import Memory, Accumulator, AddressRegister, DataRegister, InstructionRegister, ProgramCounter
 
-while True :
-    time.sleep(1)
-    print("d")
+
+def main():
+    memory = Memory()
+    accumulator = Accumulator()
+    addressRegister = AddressRegister()
+    dataRegister = DataRegister()
+    instructionRegister = InstructionRegister()
+    programCounter = ProgramCounter()
+
+
+main()

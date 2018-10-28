@@ -4,7 +4,7 @@ def check_length(value, len):
 
 
 def if_empty_raise_exception(string):
-    if string == "" ""
+    if string == "":
         raise Exception("Register string is EMPTY!")
 
 
@@ -26,6 +26,7 @@ class DataRegister:
 
     def write(self, data):
         self.data = data
+
 
 class InstructionRegister:
     instruction = ""
@@ -59,6 +60,17 @@ class ProgramCounter:
 
 
 class Accumulator:
+    data = ""
+
+    def read(self):
+        if_empty_raise_exception(self.data)
+        return self.data
+
+    def write(self, data):
+        self.data = data
+
+
+class TemporaryRegister:
     data = ""
 
     def read(self):

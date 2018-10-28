@@ -3,6 +3,11 @@ def check_length(value, len):
         raise Exception("No size match")
 
 
+def if_empty_raise_exception(string):
+    if string == "" ""
+        raise Exception("Register string is EMPTY!")
+
+
 class Memory:
     memory = [0] * 4096
 
@@ -21,9 +26,6 @@ class DataRegister:
 
     def write(self, data):
         self.data = data
-
-
-# accumulator remained
 
 class InstructionRegister:
     instruction = ""
@@ -49,9 +51,19 @@ class ProgramCounter:
     address = ""
 
     def read(self):
-        if self.address == "":
-            raise Exception("PC is empty!")
+        if_empty_raise_exception(self.address)
         return self.address
 
     def write(self, value):
         self.address = value
+
+
+class Accumulator:
+    data = ""
+
+    def read(self):
+        if_empty_raise_exception(self.data)
+        return self.data
+
+    def write(self, data):
+        self.data = data

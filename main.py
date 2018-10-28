@@ -51,18 +51,36 @@ def main():
     while True:
         wait()
         print("____STARTING____")
+
         # T0
         AR.write(PC.read())
         print_status(AC, AR, DR, IR, PC, TR)
+
         # T1
         PC.write(bin_add('1', PC.read()))
         IR.write(memory.memory[bin_to_decimal(AR.read())])
         print_status(AC, AR, DR, IR, PC, TR)
+
         # T2
         I = IR.read()[0]
         AR.write(IR.read()[4:16])
         D = bin_to_decimal(IR.read()[1:4])
         print_status(AC, AR, DR, IR, PC, TR)
+
+        #T3
+        if I == 1 :
+            AR.write(memory.memory[bin_to_decimal(AR.read())])
+
+        #-D0
+        if D == 0 :
+            #T4
+            DR.write(memory.memory[bin_to_decimal(AR.read())])
+
+            #T5
+
+
+
+
 
 
 main()

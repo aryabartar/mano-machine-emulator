@@ -17,15 +17,22 @@ class Memory:
     def write(self, address, input):
         self.memory[address] = input
 
+    def __str__(self):
+        return self.memory
+
 
 class DataRegister:
-    data = 0
+    data = ""
 
     def read(self):
         return self.data
 
     def write(self, data):
+        check_length(data, 16)
         self.data = data
+
+    def __str__(self):
+        return "DR: " + self.data
 
 
 class InstructionRegister:
@@ -35,7 +42,11 @@ class InstructionRegister:
         return self.instruction
 
     def write(self, instruction):
+        check_length(instruction, 16)
         self.instruction = instruction
+
+    def __str__(self):
+        return "IR: " + self.instruction
 
 
 class AddressRegister:
@@ -44,19 +55,27 @@ class AddressRegister:
     def read(self):
         return self.address
 
-    def write(self, value):
-        check_length(value, 12)
+    def write(self, address):
+        check_length(address, 12)
+        self.address = address
+
+    def __str__(self):
+        return "AR: " + self.address
 
 
 class ProgramCounter:
-    address = ""
+    address = "000000000000"
 
     def read(self):
         if_empty_raise_exception(self.address)
         return self.address
 
     def write(self, value):
+        check_length(value, 12)
         self.address = value
+
+    def __str__(self):
+        return "IR: " + self.address
 
 
 class Accumulator:
@@ -67,7 +86,11 @@ class Accumulator:
         return self.data
 
     def write(self, data):
+        check_length(data, 16)
         self.data = data
+
+    def __str__(self):
+        return "AC: " + self.data
 
 
 class TemporaryRegister:
@@ -78,4 +101,8 @@ class TemporaryRegister:
         return self.data
 
     def write(self, data):
+        check_length(data, 16)
         self.data = data
+
+    def __str__(self):
+        return "TR: " + self.data

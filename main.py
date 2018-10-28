@@ -36,6 +36,18 @@ def bin_to_decimal(binary_int):
     return int(binary_int, 2)
 
 
+def binary_and(a, b):
+    if not len(a) == len(b):
+        raise Exception("Lengths are not equal!!")
+    temp_bin = ""
+    for i in range(0, len(a)):
+        if a[i] == '1' and b[i] == '1':
+            temp_bin += '1'
+        else:
+            temp_bin += '0'
+    return temp_bin
+
+
 def main():
     memory = Memory()
     AC = Accumulator()
@@ -67,20 +79,25 @@ def main():
         D = bin_to_decimal(IR.read()[1:4])
         print_status(AC, AR, DR, IR, PC, TR)
 
-        #T3
-        if I == 1 :
+        # T3
+        if I == 1:
             AR.write(memory.memory[bin_to_decimal(AR.read())])
 
-        #-D0
-        if D == 0 :
-            #T4
+        # -D0
+        if D == 0:
+            # T4
             DR.write(memory.memory[bin_to_decimal(AR.read())])
 
-            #T5
+            # T5
+            AC.write(binary_and(AC.read(), DR.read()))
+            # RESER SC
+        # -D1
+        elif D == 1:
+            # T4
+            DR.write(memory.memory[bin_to_decimal(AR.read())])
 
-
-
-
+            # T5
+            AC.write(bin_add(AC.read(), DR.read()))
 
 
 main()

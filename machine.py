@@ -1,5 +1,5 @@
-def check_length(value, len):
-    if not len(value) == len:
+def check_length(value, length):
+    if not len(value) == length:
         raise Exception("No size match")
 
 

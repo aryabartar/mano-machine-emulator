@@ -147,6 +147,7 @@ def main():
 
             if B == 1:
                 #Change later
+
 main()
 # print(bin_add('0000011', '1'))
 # a = "12345"

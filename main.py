@@ -57,6 +57,15 @@ def check_if_DR_is_zero(DR):
             return False
     return True
 
+def not_all_bits (reg) :
+    not_reg = ''
+    for bit in reg :
+        if bit == '0' :
+            not_reg.append('1')
+        elif bit == '1' :
+            not_reg.append('0')
+
+    return not_reg
 
 def main():
     memory = Memory()
@@ -139,14 +148,45 @@ def main():
 
             # T6
             memory.memory[bin_to_decimal(AR.read())] = DR.read()
-            if check_if_DR_is_zero() :
-                PC.write(bin_add(PC.read() , '1'))
+            if check_if_DR_is_zero():
+                PC.write(bin_add(PC.read(), '1'))
 
-        elif D == 7 :
+        elif D == 7:
             B = bin_to_decimal(IR.read()[4:])
+            E = IR.read()[0]
+            if B == 0:
+                pass
+                # Change later
+            elif B == 1:
+                if E == 0:
+                    PC.write(bin_add(PC.read(), '1'))
+            elif B == 2:
+                if bin_to_decimal(AC.read()) == 0:
+                    PC.write(bin_add(PC.read(), '1'))
 
-            if B == 1:
-                #Change later
+            elif B == 3:
+                if AC.read()[0] == '1':
+                    PC.write(bin_add(PC.read(), '1'))
+
+            elif B == 4:
+                if AC.read()[0] == '0':
+                    PC.write(bin_add(PC.read(), '1'))
+
+            elif B == 5:
+                AC.write(bin_add(AC.read(), '1'))
+
+            elif B == 6:
+                pass
+
+            elif B == 7:
+                pass
+            elif B == 8:
+                if E == '1':
+                    E = '0'
+                else:
+                    E = '1'
+            elif E == 9 :
+
 
 main()
 # print(bin_add('0000011', '1'))

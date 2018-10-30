@@ -57,15 +57,17 @@ def check_if_DR_is_zero(DR):
             return False
     return True
 
-def not_all_bits (reg) :
-    not_reg = ''
-    for bit in reg :
-        if bit == '0' :
-            not_reg.append('1')
-        elif bit == '1' :
-            not_reg.append('0')
+
+def not_all_bits(reg):
+    not_reg = ""
+    for bit in reg:
+        if bit == '0':
+            not_reg += '1'
+        elif bit == '1':
+            not_reg += '0'
 
     return not_reg
+
 
 def main():
     memory = Memory()
@@ -155,8 +157,9 @@ def main():
             B = bin_to_decimal(IR.read()[4:])
             E = IR.read()[0]
             if B == 0:
-                pass
                 # Change later
+                pass
+
             elif B == 1:
                 if E == 0:
                     PC.write(bin_add(PC.read(), '1'))
@@ -180,15 +183,22 @@ def main():
 
             elif B == 7:
                 pass
+
             elif B == 8:
                 if E == '1':
                     E = '0'
                 else:
                     E = '1'
-            elif E == 9 :
+
+            elif E == 9:
+                AC.write(not_all_bits(AC.read()))
+
+            elif E == 10:
+                E = '0'
+
+            elif E == 11:
+                AC.write('0000000000000000')
 
 
 main()
-# print(bin_add('0000011', '1'))
-# a = "12345"
-# print(a[1:2])
+

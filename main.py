@@ -142,6 +142,11 @@ def main():
             if check_if_DR_is_zero() :
                 PC.write(bin_add(PC.read() , '1'))
 
+        elif D == 7 :
+            B = bin_to_decimal(IR.read()[4:])
+
+            if B == 1:
+                #Change later
 main()
 # print(bin_add('0000011', '1'))
 # a = "12345"

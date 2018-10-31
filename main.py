@@ -82,29 +82,36 @@ def main():
     memory.memory = f.read().split("\n")
 
     while True:
+        counter = 0
         wait()
         print("____STARTING____")
 
         # T0
         AR.write(PC.read())
         print_status(AC, AR, DR, IR, PC, TR)
+        counter += 1
 
         # T1
         PC.write(bin_add('1', PC.read()))
         IR.write(memory.memory[bin_to_decimal(AR.read())])
         print_status(AC, AR, DR, IR, PC, TR)
+        counter += 1
+
 
         # T2
         I = IR.read()[0]
         AR.write(IR.read()[4:16])
         D = bin_to_decimal(IR.read()[1:4])
         print_status(AC, AR, DR, IR, PC, TR)
+        counter += 1
+
 
         # T3
         if I == 1:
             AR.write(memory.memory[bin_to_decimal(AR.read())])
 
         if D == 0:
+            counter += 1
             # T4
             DR.write(memory.memory[bin_to_decimal(AR.read())])
 
@@ -112,6 +119,8 @@ def main():
             AC.write(binary_and(AC.read(), DR.read()))
 
         elif D == 1:
+            counter += 1
+
             # T4
             DR.write(memory.memory[bin_to_decimal(AR.read())])
 
@@ -119,6 +128,8 @@ def main():
             AC.write(bin_add(AC.read(), DR.read()))
 
         elif D == 2:
+            counter += 1
+
             # T4
             DR.write(memory.memory[bin_to_decimal(AR.read())])
 
@@ -126,14 +137,20 @@ def main():
             AC.write(DR.read())
 
         elif D == 3:
+            counter += 1
+
             # T4
             memory.memory[bin_to_decimal(AR.read())] = AC.read()
 
         elif D == 4:
+            counter += 1
+
             # T4
             PC.write(AR.read())
 
         elif D == 5:
+            counter += 1
+
             # T4
             memory.memory[bin_to_decimal(AR.read())] = PC.read()
             AR.write(bin_add(AR.read(), '1'))
@@ -142,6 +159,8 @@ def main():
             PC.write(AR.read())
 
         elif D == 6:
+            counter += 1
+
             # T4
             DR.write(memory.memory[bin_to_decimal(AR.read())])
 
@@ -154,6 +173,8 @@ def main():
                 PC.write(bin_add(PC.read(), '1'))
 
         elif D == 7:
+            counter += 1
+
             B = bin_to_decimal(IR.read()[4:])
             E = IR.read()[0]
             if B == 0:
@@ -201,4 +222,3 @@ def main():
 
 
 main()
-

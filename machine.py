@@ -79,7 +79,7 @@ class ProgramCounter:
 
 
 class Accumulator:
-    data = ""
+    data = "0000000000000000"
 
     def read(self):
         if_empty_raise_exception(self.data)

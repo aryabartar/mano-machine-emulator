@@ -81,144 +81,145 @@ def main():
     f = open("input.txt", "r")
     memory.memory = f.read().split("\n")
 
-    while True:
-        counter = 0
-        wait()
-        print("____STARTING____")
+    try:
+        while True:
+            counter = 0
+            wait()
+            print("STARTING...")
 
-        # T0
-        AR.write(PC.read())
-        print_status(AC, AR, DR, IR, PC, TR)
-        counter += 1
-
-        # T1
-        PC.write(bin_add('1', PC.read()))
-        IR.write(memory.memory[bin_to_decimal(AR.read())])
-        print_status(AC, AR, DR, IR, PC, TR)
-        counter += 1
-
-
-        # T2
-        I = IR.read()[0]
-        AR.write(IR.read()[4:16])
-        D = bin_to_decimal(IR.read()[1:4])
-        print_status(AC, AR, DR, IR, PC, TR)
-        counter += 1
-
-
-        # T3
-        if I == 1:
-            AR.write(memory.memory[bin_to_decimal(AR.read())])
-
-        if D == 0:
-            counter += 1
-            # T4
-            DR.write(memory.memory[bin_to_decimal(AR.read())])
-
-            # T5
-            AC.write(binary_and(AC.read(), DR.read()))
-
-        elif D == 1:
+            # T0
+            AR.write(PC.read())
             counter += 1
 
-            # T4
-            DR.write(memory.memory[bin_to_decimal(AR.read())])
-
-            # T5
-            AC.write(bin_add(AC.read(), DR.read()))
-
-        elif D == 2:
+            # T1
+            PC.write(bin_add('1', PC.read()))
+            IR.write(memory.memory[bin_to_decimal(AR.read())])
             counter += 1
 
-            # T4
-            DR.write(memory.memory[bin_to_decimal(AR.read())])
-
-            # T5
-            AC.write(DR.read())
-
-        elif D == 3:
+            # T2
+            I = IR.read()[0]
+            AR.write(IR.read()[4:16])
+            D = bin_to_decimal(IR.read()[1:4])
             counter += 1
 
-            # T4
-            memory.memory[bin_to_decimal(AR.read())] = AC.read()
+            # T3
+            if I == 1:
+                AR.write(memory.memory[bin_to_decimal(AR.read())])
 
-        elif D == 4:
-            counter += 1
+            if D == 0:
+                counter += 1
+                # T4
+                DR.write(memory.memory[bin_to_decimal(AR.read())])
 
-            # T4
-            PC.write(AR.read())
+                # T5
+                AC.write(binary_and(AC.read(), DR.read()))
 
-        elif D == 5:
-            counter += 1
+            elif D == 1:
+                counter += 1
 
-            # T4
-            memory.memory[bin_to_decimal(AR.read())] = PC.read()
-            AR.write(bin_add(AR.read(), '1'))
+                # T4
+                DR.write(memory.memory[bin_to_decimal(AR.read())])
 
-            # T5
-            PC.write(AR.read())
+                # T5
+                AC.write(bin_add(AC.read(), DR.read()))
 
-        elif D == 6:
-            counter += 1
+            elif D == 2:
+                counter += 1
 
-            # T4
-            DR.write(memory.memory[bin_to_decimal(AR.read())])
+                # T4
+                DR.write(memory.memory[bin_to_decimal(AR.read())])
 
-            # T5
-            DR.write(bin_add(DR.read(), '1'))
+                # T5
+                AC.write(DR.read())
 
-            # T6
-            memory.memory[bin_to_decimal(AR.read())] = DR.read()
-            if check_if_DR_is_zero():
-                PC.write(bin_add(PC.read(), '1'))
+            elif D == 3:
+                counter += 1
 
-        elif D == 7:
-            counter += 1
+                # T4
+                memory.memory[bin_to_decimal(AR.read())] = AC.read()
 
-            B = bin_to_decimal(IR.read()[4:])
-            E = IR.read()[0]
-            if B == 0:
-                # Change later
-                pass
+            elif D == 4:
+                counter += 1
 
-            elif B == 1:
-                if E == 0:
-                    PC.write(bin_add(PC.read(), '1'))
-            elif B == 2:
-                if bin_to_decimal(AC.read()) == 0:
+                # T4
+                PC.write(AR.read())
+
+            elif D == 5:
+                counter += 1
+
+                # T4
+                memory.memory[bin_to_decimal(AR.read())] = PC.read()
+                AR.write(bin_add(AR.read(), '1'))
+
+                # T5
+                PC.write(AR.read())
+
+            elif D == 6:
+                counter += 1
+
+                # T4
+                DR.write(memory.memory[bin_to_decimal(AR.read())])
+
+                # T5
+                DR.write(bin_add(DR.read(), '1'))
+
+                # T6
+                memory.memory[bin_to_decimal(AR.read())] = DR.read()
+                if check_if_DR_is_zero():
                     PC.write(bin_add(PC.read(), '1'))
 
-            elif B == 3:
-                if AC.read()[0] == '1':
-                    PC.write(bin_add(PC.read(), '1'))
+            elif D == 7:
+                counter += 1
 
-            elif B == 4:
-                if AC.read()[0] == '0':
-                    PC.write(bin_add(PC.read(), '1'))
+                B = bin_to_decimal(IR.read()[4:])
+                E = IR.read()[0]
+                if B == 0:
+                    # Change later
+                    pass
 
-            elif B == 5:
-                AC.write(bin_add(AC.read(), '1'))
+                elif B == 1:
+                    if E == 0:
+                        PC.write(bin_add(PC.read(), '1'))
+                elif B == 2:
+                    if bin_to_decimal(AC.read()) == 0:
+                        PC.write(bin_add(PC.read(), '1'))
 
-            elif B == 6:
-                pass
+                elif B == 3:
+                    if AC.read()[0] == '1':
+                        PC.write(bin_add(PC.read(), '1'))
 
-            elif B == 7:
-                pass
+                elif B == 4:
+                    if AC.read()[0] == '0':
+                        PC.write(bin_add(PC.read(), '1'))
 
-            elif B == 8:
-                if E == '1':
+                elif B == 5:
+                    AC.write(bin_add(AC.read(), '1'))
+
+                elif B == 6:
+                    pass
+
+                elif B == 7:
+                    pass
+
+                elif B == 8:
+                    if E == '1':
+                        E = '0'
+                    else:
+                        E = '1'
+
+                elif E == 9:
+                    AC.write(not_all_bits(AC.read()))
+
+                elif E == 10:
                     E = '0'
-                else:
-                    E = '1'
 
-            elif E == 9:
-                AC.write(not_all_bits(AC.read()))
+                elif E == 11:
+                    AC.write('0000000000000000')
 
-            elif E == 10:
-                E = '0'
-
-            elif E == 11:
-                AC.write('0000000000000000')
+            print_status(AC, AR, DR, IR, PC, TR)
+            print("Clock counter : " + str(counter))
+    except:
+        pass
 
 
 main()

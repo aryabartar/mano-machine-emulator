@@ -96,6 +96,7 @@ def main():
             IR.write(memory.memory[bin_to_decimal(AR.read())])
             counter += 1
 
+            print("READING : " + IR.read())
             # T2
             I = IR.read()[0]
             AR.write(IR.read()[4:16])
@@ -173,13 +174,14 @@ def main():
 
                 B = bin_to_decimal(IR.read()[4:])
                 E = IR.read()[0]
+                print(B)
                 if B == 0:
-                    # Change later
                     pass
 
                 elif B == 1:
                     if E == 0:
                         PC.write(bin_add(PC.read(), '1'))
+
                 elif B == 2:
                     if bin_to_decimal(AC.read()) == 0:
                         PC.write(bin_add(PC.read(), '1'))
@@ -196,10 +198,15 @@ def main():
                     AC.write(bin_add(AC.read(), '1'))
 
                 elif B == 6:
-                    pass
+                    E = AC.read()[1:]
+                    E += AC.read()[0]
+                    AC.write(E)
 
                 elif B == 7:
-                    pass
+                    print("HERE")
+                    E = AC.read()[15]
+                    E += AC.read() [0:15]
+                    AC.write(E)
 
                 elif B == 8:
                     if E == '1':

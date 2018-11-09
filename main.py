@@ -176,7 +176,7 @@ def main():
                 E = IR.read()[0]
                 print(B)
                 if B == 0:
-                    pass
+                    break
 
                 elif B == 1:
                     if E == 0:

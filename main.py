@@ -47,6 +47,19 @@ def make_all_items_len_three(assembly_splitted_rows):
             item.append('')
 
 
+def complement_hex(decimal_number):
+    binary = str(bin(int(decimal_number)))[2:]
+    binary = ('0' * (16 - len(binary))) + binary
+    comp_bin = ''
+    for i in binary:
+        if i == '0':
+            comp_bin += '1'
+        else:
+            comp_bin += '0'
+
+    return hex(int(comp_bin, 2) + int('1', 2))[2:]
+
+
 def read_from_input():
     assembly_raw_input = open("input.txt", "r")
     assembly_rows = assembly_raw_input.read().split("\n")
@@ -130,7 +143,7 @@ def handle_assembly_second_stage(assembly_dict):
     for item in assembly_dict.values():
         # IF for END,  ORG,
         if not (item[1] == 'END' or item[1] == 'ORG' or item[1] == 'DEC' or item[1] == 'HEX'):
-            if item[0] == '' and item[2] == '':
+            if item[2] == '':
                 hex_list.append(FUNC_HEX[item[1]])
             elif not item[2] == '':
                 hex_list.append(FUNC_HEX[item[1]] + str(dec_to_hex(item[2]))[1:])
@@ -146,3 +159,4 @@ assembly_list = read_from_input()
 assembly_dict = handle_assembly_first_stage(assembly_list)
 print(assembly_dict)
 handle_assembly_second_stage(assembly_dict)
+print(dec_to_hex("-8"))

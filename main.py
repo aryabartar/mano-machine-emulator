@@ -65,6 +65,6 @@ def dec_to_hex(decimal_number):
     return hex_number.upper()
 
 
-# assembly_list = read_from_input()
-# print(handle_assembly_first_stage(assembly_list))
-print(dec_to_hex(128221))
+assembly_list = read_from_input()
+print(handle_assembly_first_stage(assembly_list))
+# print(dec_to_hex(128221))

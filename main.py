@@ -42,7 +42,7 @@ def replace_symbols_with_location(assembly_dict):
             if not item[2] == '':
                 item[2] = search_in_dict(item[2])
 
-    print(assembly_dict)
+    return assembly_dict
 
 
 def handle_assembly_first_stage(assembly_list):
@@ -52,9 +52,8 @@ def handle_assembly_first_stage(assembly_list):
     :return:
     """
     assembly_dict = get_item_locations_as_dict(assembly_list)
-    replace_symbols_with_location(assembly_dict)
+    return replace_symbols_with_location(assembly_dict)
 
 
 assembly_list = read_from_input()
-handle_assembly_first_stage(assembly_list)
-# print(assembly_list)
+print(handle_assembly_first_stage(assembly_list))

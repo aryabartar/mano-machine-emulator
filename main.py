@@ -132,7 +132,7 @@ def make_hex_size_4(hex_number):
 
 def dec_to_hex(decimal_number):
     if str(decimal_number)[0] == '-':
-        hex_number = hex(-23 & 0xffff)[2:]
+        hex_number = complement_hex(str(decimal_number)[1:])
     else:
         hex_number = hex(int(decimal_number)).split('x')[-1]
     return make_hex_size_4(hex_number.upper())

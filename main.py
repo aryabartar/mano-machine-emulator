@@ -37,10 +37,13 @@ def replace_symbols_with_location(assembly_dict):
             if value[0] == search_key:
                 return key
 
-    for item in assembly_dict.values() :
-        if not item[2] == '' :
-            item[2] = search_in_dict(item[2])
+    for item in assembly_dict.values():
+        if not (item[1] == 'HEX' or item[1] == 'DEC'):
+            if not item[2] == '':
+                item[2] = search_in_dict(item[2])
+
     print(assembly_dict)
+
 
 def handle_assembly_first_stage(assembly_list):
     """

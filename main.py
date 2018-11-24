@@ -10,7 +10,7 @@ FUNC_HEX = {
     "BUN": "4",
     "BUNI": "C",
     "BSA": "4",
-    "BSA": "D",
+    "BSAI": "D",
     "ISZ": "6",
     "ISZI": "E",
 
@@ -94,6 +94,20 @@ def handle_assembly_first_stage(assembly_list):
     return replace_symbols_with_location(assembly_dict)
 
 
+def make_hex_size_4(hex_number):
+    for i in range(len(hex_number), 4):
+        hex_number = '0' + hex_number
+    return hex_number
+
+
+def dec_to_hex(decimal_number):
+    if str(decimal_number)[0] == '-':
+        pass
+    else:
+        hex_number = hex(int(decimal_number)).split('x')[-1]
+        return make_hex_size_4(hex_number.upper())
+
+
 def handle_assembly_second_stage(assembly_dict):
     hex_list = []
     for item in assembly_dict.values():
@@ -103,17 +117,16 @@ def handle_assembly_second_stage(assembly_dict):
                 hex_list.append(FUNC_HEX[item[1]])
             elif not item[2] == '':
                 hex_list.append(FUNC_HEX[item[1]] + str(item[2]))
-        else:
-            pass
+        elif item[1] == 'HEX' or item[1] == 'DEC':
+            if item[1] == 'HEX':
+                hex_list.append(str(make_hex_size_4(item[2])))
+            elif item[1] == 'DEC':
+                hex_list.append(str(dec_to_hex(item[2])))
     print(hex_list)
-
-
-def dec_to_hex(decimal_number):
-    hex_number = hex(int(decimal_number)).split('x')[-1]
-    return hex_number.upper()
 
 
 assembly_list = read_from_input()
 assembly_dict = handle_assembly_first_stage(assembly_list)
 print(assembly_dict)
 handle_assembly_second_stage(assembly_dict)
+print(dec_to_hex(-23))

@@ -34,12 +34,23 @@ def get_number(row_list):
             return int(int(row_list[1]))
 
 
-def handle_assembly(assembly_list):
+def handle_assembly_first_stage(assembly_list):
+    """
+    Creates location integer for symbols.
+    :param assembly_list:
+    :return:
+    """
+    LC = 0
     for item in assembly_list:
-        print(item[0])
-        if not has_label(item) and item[0] == "LDA":
-            number = get_number(item)
-
+        if item[0] == "ORG":
+            LC = int(item[1])
+            continue
+        if not has_label(item):
+            print("No label")
+        else:
+            print("LAbel")
+        LC += 1
 
 assembly_list = read_from_input()
-handle_assembly(assembly_list)
+handle_assembly_first_stage(assembly_list)
+print(assembly_list)

@@ -9,8 +9,13 @@ def read_from_input():
     assembly_rows = assembly_raw_input.read().split("\n")
     assembly_splitted_rows = []
     for row in assembly_rows:
-        assembly_splitted_rows.append(row.split(" "))
+        assembly_splitted_rows.append(row.split(' '))
     make_all_items_len_three(assembly_splitted_rows)
+
+    for item in assembly_splitted_rows:
+        if not item[0] == '':
+            if item[0][-1] == ',':
+                item[0] = item[0][0:-1]
     return assembly_splitted_rows
 
 
@@ -25,7 +30,17 @@ def get_item_locations_as_dict(assembly_list):
         LC += 1
     return assembly_dict
 
-def replace
+
+def replace_symbols_with_location(assembly_dict):
+    def search_in_dict(search_key):
+        for key, value in assembly_dict.items():
+            if value[0] == search_key:
+                return key
+
+    for item in assembly_dict.values() :
+        if not item[2] == '' :
+            item[2] = search_in_dict(item[2])
+    print(assembly_dict)
 
 def handle_assembly_first_stage(assembly_list):
     """
@@ -33,8 +48,8 @@ def handle_assembly_first_stage(assembly_list):
     :param assembly_list:
     :return:
     """
-    assembly_dict = get_label_locations_as_dict(assembly_list)
-
+    assembly_dict = get_item_locations_as_dict(assembly_list)
+    replace_symbols_with_location(assembly_dict)
 
 
 assembly_list = read_from_input()

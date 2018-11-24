@@ -102,10 +102,10 @@ def make_hex_size_4(hex_number):
 
 def dec_to_hex(decimal_number):
     if str(decimal_number)[0] == '-':
-        pass
+        hex_number = hex(-23 & 0xffff)[2:]
     else:
         hex_number = hex(int(decimal_number)).split('x')[-1]
-        return make_hex_size_4(hex_number.upper())
+    return make_hex_size_4(hex_number.upper())
 
 
 def handle_assembly_second_stage(assembly_dict):
@@ -129,4 +129,3 @@ assembly_list = read_from_input()
 assembly_dict = handle_assembly_first_stage(assembly_list)
 print(assembly_dict)
 handle_assembly_second_stage(assembly_dict)
-print(dec_to_hex(-23))

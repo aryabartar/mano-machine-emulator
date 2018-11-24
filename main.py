@@ -37,6 +37,10 @@ FUNC_HEX = {
 }
 
 
+def hex_to_dec(hex_number):
+    return int(str(hex_number), 16)
+
+
 def make_all_items_len_three(assembly_splitted_rows):
     for item in assembly_splitted_rows:
         if len(item) == 2:
@@ -63,7 +67,7 @@ def get_item_locations_as_dict(assembly_list):
     LC = 0
     for item in assembly_list:
         if item[1] == "ORG":
-            LC = int(item[2])
+            LC = hex_to_dec(item[2])
             continue
         assembly_dict[LC] = item
         LC += 1
@@ -79,7 +83,11 @@ def replace_symbols_with_location(assembly_dict):
     for item in assembly_dict.values():
         if not (item[1] == 'HEX' or item[1] == 'DEC'):
             if not item[2] == '':
-                item[2] = search_in_dict(item[2])
+                if item[-1] == 'I':
+                    item[2] = assembly_dict[search_in_dict(item[2])][2]
+                    pass
+                else:
+                    item[2] = search_in_dict(item[2])
 
     return assembly_dict
 
@@ -116,7 +124,7 @@ def handle_assembly_second_stage(assembly_dict):
             if item[0] == '' and item[2] == '':
                 hex_list.append(FUNC_HEX[item[1]])
             elif not item[2] == '':
-                hex_list.append(FUNC_HEX[item[1]] + str(item[2]))
+                hex_list.append(FUNC_HEX[item[1]] + str(dec_to_hex(item[2]))[1:])
         elif item[1] == 'HEX' or item[1] == 'DEC':
             if item[1] == 'HEX':
                 hex_list.append(str(make_hex_size_4(item[2])))

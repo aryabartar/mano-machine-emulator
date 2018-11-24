@@ -1,3 +1,42 @@
+FUNC_HEX = {
+    "AND": "0",
+    "ANDI": "8",
+    "ADD": "1",
+    "ADDI": "9",
+    "LDA": "2",
+    "LDAI": "A",
+    "STA": "3",
+    "STAI": "B",
+    "BUN": "4",
+    "BUNI": "C",
+    "BSA": "4",
+    "BSA": "D",
+    "ISZ": "6",
+    "ISZI": "E",
+
+    "CLA": "7800",
+    "CLE": "7400",
+    "CMA": "7200",
+    "CME": "7100",
+    "CIR": "7080",
+    "CIL": "7040",
+    "INC": "7020",
+    "SPA": "7010",
+    "SNA": "7008",
+    "SZA": "7004",
+    "SZE": "7002",
+    "HLT": "7001",
+
+    "INP": "F800",
+    "OUT": "F400",
+    "SKI": "F200",
+    "SKO": "F100",
+    "ION": "F080",
+    "IOF": "F040",
+
+}
+
+
 def make_all_items_len_three(assembly_splitted_rows):
     for item in assembly_splitted_rows:
         if len(item) == 2:
@@ -56,8 +95,17 @@ def handle_assembly_first_stage(assembly_list):
 
 
 def handle_assembly_second_stage(assembly_dict):
-    # return assembly_dict
-    pass
+    hex_list = []
+    for item in assembly_dict.values():
+        # IF for END,  ORG,
+        if not (item[1] == 'END' or item[1] == 'ORG' or item[1] == 'DEC' or item[1] == 'HEX'):
+            if item[0] == '' and item[2] == '':
+                hex_list.append(FUNC_HEX[item[1]])
+            elif not item[2] == '':
+                hex_list.append(FUNC_HEX[item[1]] + str(item[2]))
+        else:
+            pass
+    print(hex_list)
 
 
 def dec_to_hex(decimal_number):
@@ -66,5 +114,6 @@ def dec_to_hex(decimal_number):
 
 
 assembly_list = read_from_input()
-print(handle_assembly_first_stage(assembly_list))
-# print(dec_to_hex(128221))
+assembly_dict = handle_assembly_first_stage(assembly_list)
+print(assembly_dict)
+handle_assembly_second_stage(assembly_dict)

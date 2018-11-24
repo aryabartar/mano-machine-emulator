@@ -55,5 +55,16 @@ def handle_assembly_first_stage(assembly_list):
     return replace_symbols_with_location(assembly_dict)
 
 
-assembly_list = read_from_input()
-print(handle_assembly_first_stage(assembly_list))
+def handle_assembly_second_stage(assembly_dict):
+    # return assembly_dict
+    pass
+
+
+def dec_to_hex(decimal_number):
+    hex_number = hex(int(decimal_number)).split('x')[-1]
+    return hex_number.upper()
+
+
+# assembly_list = read_from_input()
+# print(handle_assembly_first_stage(assembly_list))
+print(dec_to_hex(128221))

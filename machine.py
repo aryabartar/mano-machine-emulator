@@ -106,3 +106,13 @@ class TemporaryRegister:
 
     def __str__(self):
         return "TR: " + self.data
+
+
+class E_R:
+    data = ""
+
+    def read(self):
+        return self.data
+
+    def write(self, data):
+        self.data = data

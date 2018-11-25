@@ -1,6 +1,7 @@
-from machine import Memory, Accumulator, AddressRegister, DataRegister, InstructionRegister, ProgramCounter, \
-    TemporaryRegister
+from machine import *
 import time
+
+E_R = E_R()
 
 
 def wait():
@@ -16,6 +17,7 @@ def print_status(AC, AR, DR, IR, PC, TR):
     print(IR)
     print(PC)
     print(TR)
+    print("E_R:" + E_R.read())
     print("--------------")
 
 
@@ -24,6 +26,10 @@ def make_bin_lengthy(a, length):
     for i in range(0, diff):
         a = '0' + a
     return a
+
+
+def bin_to_hex(number):
+    return hex(int(str(number), 2))[2:]
 
 
 def bin_add(a, b):
@@ -51,6 +57,7 @@ def binary_and(a, b):
 
 
 def check_if_DR_is_zero(DR):
+    print("-------")
     dr_value = DR.read()
     for char in dr_value:
         if char == '1':
@@ -106,121 +113,148 @@ def main():
             # T3
             if I == 1:
                 AR.write(memory.memory[bin_to_decimal(AR.read())])
+            counter += 1
 
             if D == 0:
-                counter += 1
+                print("D0")
                 # T4
                 DR.write(memory.memory[bin_to_decimal(AR.read())])
+                counter += 1
 
                 # T5
                 AC.write(binary_and(AC.read(), DR.read()))
+                counter += 1
+
 
             elif D == 1:
-                counter += 1
+                print("D1")
 
                 # T4
                 DR.write(memory.memory[bin_to_decimal(AR.read())])
+                counter += 1
 
                 # T5
                 AC.write(bin_add(AC.read(), DR.read()))
+                counter += 1
+
 
             elif D == 2:
-                counter += 1
+                print("D2")
 
                 # T4
                 DR.write(memory.memory[bin_to_decimal(AR.read())])
+                counter += 1
 
                 # T5
                 AC.write(DR.read())
+                counter += 1
+
 
             elif D == 3:
-                counter += 1
+                print("D3")
 
                 # T4
                 memory.memory[bin_to_decimal(AR.read())] = AC.read()
+                counter += 1
+
 
             elif D == 4:
-                counter += 1
+                print("D4")
 
                 # T4
                 PC.write(AR.read())
+                counter += 1
+
 
             elif D == 5:
-                counter += 1
+                print("D5")
 
                 # T4
                 memory.memory[bin_to_decimal(AR.read())] = PC.read()
                 AR.write(bin_add(AR.read(), '1'))
+                counter += 1
 
                 # T5
                 PC.write(AR.read())
+                counter += 1
+
 
             elif D == 6:
-                counter += 1
+                print("D6")
 
                 # T4
                 DR.write(memory.memory[bin_to_decimal(AR.read())])
+                counter += 1
+                print("T4")
 
                 # T5
                 DR.write(bin_add(DR.read(), '1'))
+                counter += 1
+                print("T5")
 
                 # T6
                 memory.memory[bin_to_decimal(AR.read())] = DR.read()
-                if check_if_DR_is_zero():
+                if check_if_DR_is_zero(DR):
                     PC.write(bin_add(PC.read(), '1'))
 
+                counter += 1
+                print("T6")
+
+
             elif D == 7:
+                print("D7")
+
                 counter += 1
 
-                B = bin_to_decimal(IR.read()[4:])
+                B = bin_to_hex(IR.read())
                 E = IR.read()[0]
-                print(B)
-                if B == 0:
+                print("B : " + str(B))
+                if B == "7001":
+                    print("***** FINISHED *****")
                     break
 
-                elif B == 1:
+                elif B == "7002":
                     if E == 0:
                         PC.write(bin_add(PC.read(), '1'))
 
-                elif B == 2:
+                elif B == "7004":
                     if bin_to_decimal(AC.read()) == 0:
                         PC.write(bin_add(PC.read(), '1'))
 
-                elif B == 3:
+                elif B == "7008":
                     if AC.read()[0] == '1':
                         PC.write(bin_add(PC.read(), '1'))
 
-                elif B == 4:
+                elif B == "7010":
                     if AC.read()[0] == '0':
                         PC.write(bin_add(PC.read(), '1'))
 
-                elif B == 5:
+                elif B == "7020":
                     AC.write(bin_add(AC.read(), '1'))
 
-                elif B == 6:
-                    E = AC.read()[1:]
-                    E += AC.read()[0]
-                    AC.write(E)
+                elif B == "7040":
+                    temp_E_R = AC.read()[0]
+                    AC.write(AC.read()[1:] + E_R.read())
+                    E_R.write(temp_E_R)
 
-                elif B == 7:
-                    print("HERE")
-                    E = AC.read()[15]
-                    E += AC.read() [0:15]
-                    AC.write(E)
+                elif B == "7080":
+                    temp_E_R = AC.read()[15]
+                    AC.write(E_R.read() + AC.read()[0: 15])
+                    E_R.write(temp_E_R)
 
-                elif B == 8:
-                    if E == '1':
-                        E = '0'
+                elif B == "7100":
+                    if E_R.read() == '0':
+                        E_R.write('1')
                     else:
-                        E = '1'
+                        E_R.write('0')
 
-                elif E == 9:
+                elif B == "7200":
                     AC.write(not_all_bits(AC.read()))
 
-                elif E == 10:
-                    E = '0'
+                elif B == "7400":
+                    E_R.write('0')
 
-                elif E == 11:
+                elif B == "7800":
                     AC.write('0000000000000000')
 
             print_status(AC, AR, DR, IR, PC, TR)

@@ -155,13 +155,31 @@ def handle_assembly_second_stage(assembly_dict):
     return hex_list
 
 
-def final_write(hex_list):
-    f = open("output.txt", "w")
+def hex_to_bin(hex_num):
+    def make_size_16(num):
+        num = str(num)
+        num = '0' * (16 - len(num)) + num
+        return num
+
+    scale = 16  ## equals to hexadecimal
+    num_of_bits = 8
+    return make_size_16(bin(int(hex_num, scale))[2:].zfill(num_of_bits))
+
+
+def final_write_hex(hex_list):
+    f = open("output-hex.txt", "w")
     for item in hex_list:
         f.write(item + "\n")
+
+
+def final_write_bin(hex_list):
+    f = open("output-bin.txt", "w")
+    for item in hex_list:
+        f.write(hex_to_bin(item) + "\n")
 
 
 assembly_list = read_from_input()
 assembly_dict = handle_assembly_first_stage(assembly_list)
 hex_list = handle_assembly_second_stage(assembly_dict)
-final_write(hex_list)
+final_write_hex(hex_list)
+final_write_bin(hex_list)

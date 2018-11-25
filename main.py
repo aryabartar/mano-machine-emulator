@@ -1,13 +1,10 @@
 from machine import *
-import time
 
 E_R = E_R()
 
 
 def wait():
-    SLEEP_TIME = 0.1
-    time.sleep(SLEEP_TIME)
-
+    pass
 
 def print_status(AC, AR, DR, IR, PC, TR):
     print("--------------")
@@ -89,6 +86,7 @@ def main():
     memory.memory = f.read().split("\n")
 
     try:
+        total_counter = 0
         while True:
             counter = 0
             wait()
@@ -207,14 +205,18 @@ def main():
                 counter += 1
 
                 B = bin_to_hex(IR.read())
-                E = IR.read()[0]
                 print("B : " + str(B))
                 if B == "7001":
+                    temp_ctr = 0
+                    for item in memory.memory:
+                        print(temp_ctr)
+                        print(item)
+                        temp_ctr += 1
                     print("***** FINISHED *****")
                     break
 
                 elif B == "7002":
-                    if E == 0:
+                    if E_R.read() == '0':
                         PC.write(bin_add(PC.read(), '1'))
 
                 elif B == "7004":
@@ -259,6 +261,9 @@ def main():
 
             print_status(AC, AR, DR, IR, PC, TR)
             print("Clock counter : " + str(counter))
+            total_counter += counter
+            print("Total counter : " + str(total_counter))
+
     except:
         pass
 

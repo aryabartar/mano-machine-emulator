@@ -152,11 +152,16 @@ def handle_assembly_second_stage(assembly_dict):
                 hex_list.append(str(make_hex_size_4(item[2])))
             elif item[1] == 'DEC':
                 hex_list.append(str(dec_to_hex(item[2])))
-    print(hex_list)
+    return hex_list
+
+
+def final_write(hex_list):
+    f = open("output.txt", "w")
+    for item in hex_list:
+        f.write(item + "\n")
 
 
 assembly_list = read_from_input()
 assembly_dict = handle_assembly_first_stage(assembly_list)
-print(assembly_dict)
-handle_assembly_second_stage(assembly_dict)
-print(dec_to_hex("-8"))
+hex_list = handle_assembly_second_stage(assembly_dict)
+final_write(hex_list)

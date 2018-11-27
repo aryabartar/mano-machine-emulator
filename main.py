@@ -202,8 +202,6 @@ def main():
             elif D == 7:
                 print("D7")
 
-                counter += 1
-
                 B = bin_to_hex(IR.read())
                 print("B : " + str(B))
                 if B == "7001":
